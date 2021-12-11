@@ -84,6 +84,7 @@ async function run() {
       // Get pairs by splitting on newlines
       secrets.split('\n').forEach(function (line) {
         // Trim whitespace
+        console.log('line', line)
         const trimmedLine = line.trim();
         // Skip if empty
         if (trimmedLine.length === 0) { return; }
@@ -96,12 +97,16 @@ async function run() {
 
         const secretValue = trimmedLine.substring(separatorIdx + 1)
         const secretName = trimmedLine.substring(0, separatorIdx)
+
+        console.log('secretFull', { secretValue, secretName })
         
         const secretSource = secretValue.split(':')[0]
         const secretAddress = secretValue.split(':')[1]
 
+        console.log('secretSourceAddress', { secretSource, secretAddress })
+
         const secretsManagerArnType = `arn:aws::secretsmanager:${region}:${accountId}:secret:${stage}${secretAddress}`
-        const ssmArnType = `arn:aws::${secretSource}:${region}:${accountId}:parameter${stage}${secretAddress}`
+        const ssmArnType = `arn:aws::${secretSource}:${region}:${accountId}:parameter/${stage}${secretAddress}`
 
         const paramFormula = secretSource === 'ssm' ? ssmArnType : secretsManagerArnType
 
