@@ -1293,6 +1293,8 @@ async function run() {
           name: secretName,
           valueFrom: paramFormula,
         };
+        
+        console.log('secret', secret)
 
         // Search container definition secret for one matching name
         const secretDef = containerDef.secrets.find((e) => e.name == secret.name);
