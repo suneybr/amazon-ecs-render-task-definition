@@ -100,10 +100,15 @@ async function run() {
         const secretSource = secretValue.split(':')[0]
         const secretAddress = secretValue.split(':')[1]
 
+        const secretsManagerArnType = `arn:aws::secretsmanager:${region}:${accountId}:secret:${stage}${secretAddress}`
+        const ssmArnType = `arn:aws::${secretSource}:${region}:${accountId}:parameter${stage}${secretAddress}`
+
+        const paramFormula = secretSource === 'ssm' ? ssmArnType : secretsManagerArnType
+
         // Build object
         const secret = {
           name: secretName,
-          valueFrom: `arn:aws::${secretSource}:${region}:${accountId}:secret:${stage}${secretAddress}`,
+          valueFrom: paramFormula,
         };
 
         // Search container definition secret for one matching name
