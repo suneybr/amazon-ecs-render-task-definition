@@ -1288,8 +1288,8 @@ async function run() {
 
         console.log('secretSourceAddress', { secretSource, secretAddress })
 
-        const secretsManagerArnType = `arn:aws::secretsmanager:us-east-1:815780032360:secret:${stage}${secretAddress}`
-        const ssmArnType = `arn:aws::${secretSource}:us-east-1:815780032360:parameter/${stage}${secretAddress}`
+        const secretsManagerArnType = `arn:aws:secretsmanager:${region}:${accountId}:secret:${stage}${secretAddress}`
+        const ssmArnType = `arn:aws:${secretSource}:${region}:${accountId}:parameter/${stage}${secretAddress}`
 
         const paramFormula = secretSource === 'ssm' ? ssmArnType : secretsManagerArnType
 
